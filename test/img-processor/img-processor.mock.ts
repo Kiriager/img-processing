@@ -26,6 +26,11 @@ age of foolishness...`;
 
 export const mockedImgProcessorService = {
   extractText: jest.fn(),
-  checkImageFormat: jest.fn(),
+  checkImageFormat: jest.fn((url: string) => { 
+    return url === validRequest.requestUrl || url === unexistingFileRequest.requestUrl ? true : false}),
   imageExists: jest.fn(),
+};
+
+export const mockedClientProxy = {
+  emit: jest.fn(),
 };

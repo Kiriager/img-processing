@@ -13,12 +13,12 @@ import { ImgProcessorService } from './img-processor.service';
 export class ImgProcessorController {
   constructor(
     @Inject('IMG_POCESSING_SERVICE')
-    private readonly imageProcessingService: ClientProxy,
+    private readonly client: ClientProxy,
     private readonly imgProcessorService: ImgProcessorService,
   ) {}
 
   @EventPattern({ cmd: 'add-request' })
-  async addRequest(data: ImageProcessingRequestDto) {
+  async processRequest(data: ImageProcessingRequestDto) {
     try {
       console.log(
         'Result of extraction: ' +
@@ -34,6 +34,6 @@ export class ImgProcessorController {
     if (!this.imgProcessorService.checkImageFormat(dto.requestUrl)) {
       throw new BadRequestException('Wrong format');
     }
-    return this.imageProcessingService.emit({ cmd: 'add-request' }, dto);
+    return this.client.emit({ cmd: 'add-request' }, dto);
   }
 }
