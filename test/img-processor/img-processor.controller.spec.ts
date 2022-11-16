@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ImgProcessorController } from '../src/img-processor/img-processor.controller';
+import { ImgProcessorController } from '../../src/img-processor/img-processor.controller';
 
 describe('ImgProcessorController', () => {
   let controller: ImgProcessorController;

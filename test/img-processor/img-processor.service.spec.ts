@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ImgProcessorService } from '../src/img-processor/img-processor.service';
+import { ImgProcessorService } from 'src/img-processor/img-processor.service';
 
 describe('ImgProcessorService', () => {
   let service: ImgProcessorService;

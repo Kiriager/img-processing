@@ -1,4 +1,10 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Inject,
+  Post,
+} from '@nestjs/common';
 import { ClientProxy, EventPattern } from '@nestjs/microservices';
 import { ImageProcessingRequestDto } from './dto/image-processing-request.dto';
 import { ImgProcessorService } from './img-processor.service';
@@ -7,20 +13,27 @@ import { ImgProcessorService } from './img-processor.service';
 export class ImgProcessorController {
   constructor(
     @Inject('IMG_POCESSING_SERVICE')
-    private imageProcessingService: ClientProxy,
+    private readonly imageProcessingService: ClientProxy,
     private readonly imgProcessorService: ImgProcessorService,
   ) {}
 
   @EventPattern({ cmd: 'add-request' })
   async addRequest(data: ImageProcessingRequestDto) {
-    console.log(
-      'Rasult of extraction: ' +
-        (await this.imgProcessorService.extractText(data.requestUrl)),
-    );
+    try {
+      console.log(
+        'Result of extraction: ' +
+          (await this.imgProcessorService.extractText(data.requestUrl)),
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   @Post()
   async sendProcessingRequest(@Body() dto: ImageProcessingRequestDto) {
+    if (!this.imgProcessorService.checkImageFormat(dto.requestUrl)) {
+      throw new BadRequestException('Wrong format');
+    }
     return this.imageProcessingService.emit({ cmd: 'add-request' }, dto);
   }
 }

@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { ImgProcessorController } from './img-processor.controller';
@@ -5,6 +6,7 @@ import { ImgProcessorService } from './img-processor.service';
 
 @Module({
   controllers: [ImgProcessorController],
+  imports: [HttpModule],
   providers: [
     ImgProcessorService,
     {
